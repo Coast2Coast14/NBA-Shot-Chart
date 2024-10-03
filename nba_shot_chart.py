@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from mplbasketball import Court
 import pandas as pd
 
-# Testing changes
+
 st.title("NBA Shot Charts")
 st.subheader("Filter on any team and player to get their shot chart data")
 
