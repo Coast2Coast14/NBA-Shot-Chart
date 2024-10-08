@@ -40,7 +40,7 @@ team = st.selectbox(
 )
 player = st.selectbox(
     "Select a player",
-    df[df["TEAM_NAME"] == team]["PLAYER_NAME"].sort_values().unique(),
+    df[df["TEAM_NAME"] == team]["PLAYER_NAME"].unique(),
     index=None,
 )
 
