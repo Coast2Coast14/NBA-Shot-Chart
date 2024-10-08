@@ -24,8 +24,20 @@ df["LOC_Y"] = -df["LOC_Y"] + 39
 court = Court(court_type="nba", origin="center", units="ft")
 fig, ax = court.draw(showaxis=True)
 
+team_names = df["TEAM_NAME"]
 
-team = st.selectbox("Select a team", df["TEAM_NAME"].sort_values().unique(), index=None)
+team = st.selectbox(
+    "Select a team",
+    df["TEAM_NAME"]
+    .loc[
+        team_names.apply(
+            lambda x: (x.split()[-1] if x != "Portland Trail Blazers" else x.split()[1])
+        )
+        .sort_values()
+        .index
+    ]
+    .unique(),
+)
 player = st.selectbox(
     "Select a player",
     df[df["TEAM_NAME"] == team]["PLAYER_NAME"].sort_values().unique(),
@@ -44,15 +56,18 @@ def filter_data(df, team, player):
         fig, ax = court.draw(orientation="vu")
 
         def plot_shots(df, ax, court):
-            # for x in df.to_dict(orient="records"):
-            #    ax.scatter(x=(df["LOC_X"]), y=(df["LOC_Y"]), s=1.5, zorder=0)
 
-            # Plot the heat map using hexbin (you can adjust gridsize and colormap)
+            # Plotting the heat map using hexbin
             hb = ax.hexbin(
-                df["LOC_X"], df["LOC_Y"], gridsize=30, cmap="cividis", zorder=0
+                df["LOC_X"],
+                df["LOC_Y"],
+                gridsize=30,
+                cmap="cividis",
+                zorder=0,
+                extent=(-50, 70, -50, 70),
             )
 
-            # Add a color bar to show the density of shots
+            # Adding color bar to show shot frequency
             plt.colorbar(hb, ax=ax, label="Shot Frequency")
 
         plot_shots(df, ax, court)
