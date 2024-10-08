@@ -21,9 +21,6 @@ df["LOC_X"] = -df["LOC_X"] * 1.2
 df["LOC_Y"] = -df["LOC_Y"] + 39
 
 
-court = Court(court_type="nba", origin="center", units="ft")
-fig, ax = court.draw(showaxis=True)
-
 team_names = df["TEAM_NAME"]
 
 team = st.selectbox(
